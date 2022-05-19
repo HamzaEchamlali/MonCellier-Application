@@ -1,0 +1,12 @@
+#liste_wine li {
+    list-style-type: none;
+    margin-top: 10px;
+    padding: 1vh 1vw;
+}
+
+
+#liste_wine li:hover {
+    background-color: rgba(192, 192, 192, 0.275);
+    cursor: pointer;
+    border-radius: 10px;
+}

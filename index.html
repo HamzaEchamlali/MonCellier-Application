@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/script.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - MonCellier</title>
+    <meta name="author" content="Hamza Echamlali, Albert Amela, Jason Nama">
+    <meta property="og:image" content="assets/img/favicon_500x500.png">
+    <meta name="description"
+        content="MonCellier is an application allowing you to see and consult wines, see their characteristics and description but also to assign a note, a comment and a like.">
+    <meta property="og:type" content="website">
+    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="assets/img/favicon_180x180.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="180x180" href="assets/img/favicon_180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon_192x192.png">
+    <link rel="icon" type="image/png" sizes="500x500" href="assets/img/favicon_500x500.png">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/Features-Minimal.css">
+    <link rel="stylesheet" href="assets/css/Hero-Clean.css">
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a href="index.html"
+                    class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-wine-glass-alt"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>Moncellier</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar-1">
+                    <hr class="sidebar-divider">
+                    <li class="nav-item">
+                        <div><a class="btn btn-link nav-link" data-bs-toggle="collapse" aria-expanded="false"
+                                aria-controls="collapse-1" href="#collapse-1" role="button"><i
+                                    class="fas fa-wine-glass"></i>&nbsp;<span>All</span>&nbsp;wines</a>
+                            <div class="collapse" id="collapse-1">
+                                <div class="bg-white border rounded py-2 collapse-inner">
+                                    <h6 class="collapse-header">Wines</h6>
+                                    <ul id="liste_wine" style="padding:0;color:black">
+                                        <li>BLOCK NINE</li>
+                                        <li>BODEGA LURTON</li>
+                                        <li>CHATEAU</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3"
+                            id="sidebarToggleTop-1" type="button"><i class="fas fa-bars"></i></button>
+
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group"><input id="motClef" class="bg-light form-control border-0 small"
+                                    type="text" placeholder="Search for ...">
+                                <button onclick="recherche()" class="btn btn-primary py-0" type="button"><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <select id="countrySelect" class="form-select">
+                                    <optgroup label="Countries">
+                                        <option value="12" selected="">All countries</option>
+                                        <option value="13">This is item 2</option>
+                                        <option value="14">This is item 3</option>
+                                    </optgroup>
+                                </select>
+                                <select id="yearSelect" class="form-select">
+                                    <optgroup label="Years">
+                                        <option value="12" selected="">All years</option>
+                                        <option value="13">This is item 2</option>
+                                        <option value="14">This is item 3</option>
+                                    </optgroup>
+                                </select><button onclick="filtre()" class="btn btn-primary py-0" type="button"><i
+                                        class="fas fa-filter"></i></button>
+                            </div>
+                        </form>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link"
+                                    aria-expanded="false" data-bs-toggle="dropdown" href="#"><i
+                                        class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in"
+                                    aria-labelledby="searchDropdown">
+                                    <form class="me-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small"
+                                                type="text" placeholder="Search for ...">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0"
+                                                    type="button"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
+                                        aria-expanded="false" data-bs-toggle="dropdown" href="index.html"><i
+                                            class="fas fa-home fa-fw"></i></a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
+                                        aria-expanded="false" data-bs-toggle="dropdown" href="#"><i
+                                            class="fas fa-info-circle fa-fw"></i></a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
+                                        aria-expanded="false" data-bs-toggle="dropdown" href="#"><span
+                                            class="d-none d-lg-inline me-2 text-gray-600 small">Hamza
+                                            Echamlali</span><i class="fas fa-user"
+                                            style="color: rgb(78, 115, 223);"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="card shadow-lg o-hidden border-0 my-5" style="margin-left: 100px;margin-right: 100px;">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-flex">
+                                <div id="picture" class="flex-grow-1 bg-password-image"
+                                    style="background: url(&quot;assets/pics/block_nine.jpg&quot;) center no-repeat;">
+                                    <a class="btn btn-primary btn-sm btn-icon-split" role="button"
+                                        style="margin-left: 10px;margin-top: 10px;"><span class="text-white-50 icon"><i
+                                                class="fas fa-image"></i></span><span
+                                            class="text-white text">Picture</span></a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+
+                                        <h4 class=" text-dark mb-2"><strong id="vinId"> </strong> <strong id="name"> #9
+                                                Block Nine</strong></h4>
+                                        <p class="mb-4">-</p>
+                                    </div>
+                                    <div class="card shadow border-start-success py-2" style="margin-bottom: 20px;">
+                                        <div class="card-body">
+                                            <div class="row align-items-center no-gutters">
+                                                <div class="col me-2">
+                                                    <div class="text-uppercase text-success fw-bold text-xs mb-1">
+                                                        <span style="color: rgb(78,115,223);">Price</span>
+                                                    </div>
+                                                    <div class="text-dark fw-bold h5 mb-0"><span id="price">21</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto"><i
+                                                        class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="text-center"><a class="btn btn-primary btn-sm btn-icon-split"
+                                            role="button"><span class="text-white-50 icon"><i
+                                                    class="fas fa-heart"></i></span><span
+                                                class="text-white text">Like</span></a><a
+                                            class="btn btn-primary btn-sm btn-icon-split" role="button"
+                                            style="margin-right: 5px;margin-left: 5px;"><span
+                                                class="text-white-50 icon"><i class="fas fa-pencil-alt"></i></span><span
+                                                class="text-white text"
+                                                onclick="document.getElementById('commentary_section').style.display='block';document.getElementById('note_section').style.display='none';">Comment</span></a><a
+                                            class=" btn btn-primary btn-sm btn-icon-split" role="button"><span
+                                                class="text-white-50 icon"><i class="fas fa-star"></i></span><span
+                                                class="text-white text"
+                                                onclick="document.getElementById('note_section').style.display='block';document.getElementById('commentary_section').style.display='none';">Note</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="commentary_section" class="card shadow mb-5"
+                    style="display:none;margin-top: 35px;margin-left: 100px;margin-right: 100px;">
+                    <div class="card-header py-3">
+                        <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Write a commentary</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6" style="width: 100%;">
+                                <form>
+                                    <div class="mb-3"><label class="form-label" for="signature"><strong>Your
+                                                commentary</strong><br></label><textarea class="form-control"
+                                            id="signature" rows="4" name="signature"></textarea></div>
+                                    <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit"
+                                            style="background: rgb(78,115,223);">Send</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="note_section" class="card shadow mb-5"
+                    style="display:none;margin-top: 35px;margin-left: 100px;margin-right: 100px;">
+                    <div class="card-header py-3">
+                        <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Write a note</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6" style="width: 100%;">
+                                <form>
+                                    <div class="mb-3"><label class="form-label" for="signature"><strong>Your
+                                                note</strong><br></label><textarea class="form-control" id="signature"
+                                            rows="4" name="signature"></textarea></div>
+                                    <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit"
+                                            style="background: rgb(78,115,223);">Send</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow mb-4" style="margin-top: 35px;margin-left: 100px;margin-right: 100px;">
+                    <div class="card-header py-3">
+                        <h6 class="text-primary m-0 fw-bold">Description</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="m-0" id="description">With hints of ginger and spice, this wine makes an excellent
+                            complement to light appetizer and dessert fare for a holiday gathering.</p>
+                    </div>
+                </div>
+                <div class="row d-xl-flex justify-content-xl-center align-items-xl-center" style="margin-top: 35px;">
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-primary py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span
+                                                style="color: rgb(78,115,223);">year</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0"><span id="year">2009</span></div>
+                                    </div>
+                                    <div class="col-auto"><i class="far fa-calendar fa-2x text-gray-300"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-success py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-success fw-bold text-xs mb-1"><span
+                                                style="color: rgb(78,115,223);">capacity</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0"><span id="capacity">75 cl</span></div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-wine-bottle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-info py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-info fw-bold text-xs mb-1"><span
+                                                style="color: rgb(78,115,223);">color</span></div>
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-auto">
+                                                <div class="text-dark fw-bold h5 mb-0 me-3"><span
+                                                        id="color">white</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-glass-martini fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-xl-flex justify-content-xl-center align-items-xl-center">
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-primary py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span
+                                                style="color: rgb(78,115,223);">Grapes</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0"><span id="grapes">Pinot Noir</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-wine-glass-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-success py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-success fw-bold text-xs mb-1"><span
+                                                style="color: rgb(78,115,223);">Country</span></div>
+                                        <div class="text-dark fw-bold h5 mb-0"><span id="country">USA</span></div>
+                                    </div>
+                                    <div class="col-auto"><i class="far fa-flag fa-2x text-gray-300"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-info py-2">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-info fw-bold text-xs mb-1"><span
+                                                style="color: rgb(78,115,223);">Region</span></div>
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-auto">
+                                                <div class="text-dark fw-bold h5 mb-0 me-3"><span
+                                                        id="region">California</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-map-marker-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-right: 100px;margin-left: 100px;margin-top: 35px;">
+                <div class="card shadow mb-4" style="margin-top: 35px;margin-right: 100px;margin-left: 100px;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0">My last commentary</h6>
+                        <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div style="text-align: center;"
+                                class="dropdown-menu dropdown-menu-end shadow animated--fade-in">
+                                <h6 class="dropdown-header text-center"><strong>Action</strong></h6><a
+                                    class="dropdown-item" href="#">&nbsp;Modify</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="m-0" id="comment">Very nice wine
+                        </p>
+                    </div>
+                </div>
+                <div class="card shadow mb-4" style="margin-top: 35px;margin-right: 100px;margin-left: 100px;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0">My last note</h6>
+                        <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div style="text-align: center;"
+                                class="dropdown-menu dropdown-menu-end shadow animated--fade-in">
+                                <h6 class="dropdown-header text-center"><strong>Action</strong></h6><a
+                                    class="dropdown-item" href="#">&nbsp;Modify</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="m-0" id="note">10/10
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Caviste 2022</span></div>
+                </div>
+            </footer><a class="border rounded d-inline scroll-to-top" href="#page-top"><i
+                    class="fas fa-angle-up"></i></a>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>
