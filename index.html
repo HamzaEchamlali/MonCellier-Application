@@ -3,7 +3,6 @@
 
 <head>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/js/script.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Home - MonCellier</title>
@@ -43,7 +42,7 @@
                         <div><a class="btn btn-link nav-link" data-bs-toggle="collapse" aria-expanded="false"
                                 aria-controls="collapse-1" href="#collapse-1" role="button"><i
                                     class="fas fa-wine-glass"></i>&nbsp;<span>All</span>&nbsp;wines</a>
-                            <div class="collapse" id="collapse-1">
+                            <div class="collapse show" id="collapse-1">
                                 <div class="bg-white border rounded py-2 collapse-inner">
                                     <h6 class="collapse-header">Wines</h6>
                                     <ul id="liste_wine" style="padding:0;color:black">
@@ -171,15 +170,23 @@
                                     </div>
                                     <hr>
                                     <div class="text-center"><a class="btn btn-primary btn-sm btn-icon-split"
-                                            role="button"><span class="text-white-50 icon"><i
-                                                    class="fas fa-heart"></i></span><span
-                                                class="text-white text">Like</span></a><a
-                                            class="btn btn-primary btn-sm btn-icon-split" role="button"
-                                            style="margin-right: 5px;margin-left: 5px;"><span
+                                            role="button"><span class=" text-white-50 icon"><i
+                                                    style="color: rgba(0, 255, 0, 0.336);"
+                                                    class="fas fa-heart"></i><span id="nbLike"></span></span><span
+                                                class="text-white text">Like</span></a>
+
+                                        <a class="btn btn-primary btn-sm btn-icon-split" role="button"><span
+                                                class=" text-white-50 icon"><i style="color: rgba(255, 99, 99, 0.49);"
+                                                    class="fas fa-heart-broken"></i></i><span></span></span><span
+                                                id="dislike" class="text-white text">Dislike</span></a>
+
+                                        <a class="btn btn-primary btn-sm btn-icon-split" role="button"><span
                                                 class="text-white-50 icon"><i class="fas fa-pencil-alt"></i></span><span
                                                 class="text-white text"
-                                                onclick="document.getElementById('commentary_section').style.display='block';document.getElementById('note_section').style.display='none';">Comment</span></a><a
-                                            class=" btn btn-primary btn-sm btn-icon-split" role="button"><span
+                                                onclick="document.getElementById('commentary_section').style.display='block';document.getElementById('note_section').style.display='none';">Comment</span></a>
+
+
+                                        <a class=" btn btn-primary btn-sm btn-icon-split" role="button"><span
                                                 class="text-white-50 icon"><i class="fas fa-star"></i></span><span
                                                 class="text-white text"
                                                 onclick="document.getElementById('note_section').style.display='block';document.getElementById('commentary_section').style.display='none';">Note</span></a>
@@ -391,6 +398,7 @@
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/theme.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>
