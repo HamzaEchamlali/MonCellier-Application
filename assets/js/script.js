@@ -1,6 +1,7 @@
 //AFFICHAGE DE TOUT LES VINS
 let wines;
 window.onload = function () {
+	Loader.open();
 
 /*
 		let user = "";
@@ -76,6 +77,7 @@ window.onload = function () {
 			for (let wine of wines) {
 
 				str += '<li data-id="' + wine.id + '">' + wine.name + '</li>';
+				Loader.close();
 			}
 
 			document.getElementById('liste_wine').innerHTML = str;
@@ -88,12 +90,15 @@ window.onload = function () {
 				}
 			}
 		})
+
+
 }
 
 function authentification(){
 
 login = prompt("Login : ");
 password = prompt("password : ");
+Loader.open();
 				//AUTHENTIFICATION	
 				let auth = "";
 				const options = {
@@ -107,6 +112,7 @@ password = prompt("password : ");
 				fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
 					.then(response => response.json())
 					.then(function (json) {
+						Loader.close();
 						auth = json;
 						if(auth.success){
 							document.getElementById("session").innerHTML = auth.email;
@@ -122,6 +128,7 @@ password = prompt("password : ");
 
 
 function recherche() {
+	Loader.open();
 	let idVinChoisi;
 	for (let wine of wines) {
 		if (wine.name.toLowerCase() == document.getElementById("motClef").value.toLowerCase()) {
@@ -185,6 +192,7 @@ function recherche() {
 	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/notes', options)
 		.then(response => response.json())
 		.then(function (json) {
+			Loader.close();
 			notes = json;
 			if(notes.note.length > 0){
 				document.getElementById("def").innerHTML = "<p>"+notes.note+"</p>"+"<button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' onclick='modifyNote("+idVinChoisi+")'> modify </button> " + " <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' onclick='deleteNote("+idVinChoisi+")'> Delete </button>";
@@ -195,6 +203,7 @@ function recherche() {
 }
 
 function filtre() {
+
 	//PARTIE PAYS SEULEMENT
 	let countryChoose = "";
 	let select = document.getElementById("countrySelect");
@@ -283,7 +292,7 @@ function filtre() {
 
 //DETAIL D'UN SEUL VIN
 function clickWine(idVinChoisi) {
-
+	Loader.open();
 
 	for (let i = 0; i < wines.length; i++) {
 
@@ -352,6 +361,7 @@ function clickWine(idVinChoisi) {
 		.then(response => response.json())
 		.then(function (json) {
 			notes = json;
+			Loader.close();
 			if(notes.note.length > 0){
 				document.getElementById("def").innerHTML = "<p>"+notes.note+"</p>"+"<button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' onclick='modifyNote("+idVinChoisi+")'> modify </button> " + " <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' onclick='deleteNote("+idVinChoisi+")'> Delete </button>";
 			}
@@ -374,7 +384,6 @@ function clickWine(idVinChoisi) {
 		.then(response => response.json())
 		.then(function (json) {
 			pictures = json;
-			console.log(pictures);
 			document.getElementById("buttPic").setAttribute("style", "background: url(" + pictures[0].url + ") center no-repeat;");
 		})
 
