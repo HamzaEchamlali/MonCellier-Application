@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="assets/css/style.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -29,7 +30,9 @@
 
     <div id="wrapper">
 
-        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+
+        <nav data-aos="fade-right"
+            class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
             <div class="container-fluid d-flex flex-column p-0"><a href="index.html"
                     class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
                     <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-wine-glass-alt"></i></div>
@@ -42,7 +45,7 @@
                         <div><a class="btn btn-link nav-link" data-bs-toggle="collapse" aria-expanded="false"
                                 aria-controls="collapse-1" href="#collapse-1" role="button"><i
                                     class="fas fa-wine-glass"></i>&nbsp;<span>All</span>&nbsp;wines</a>
-                            <div class="collapse show" id="collapse-1">
+                            <div data-aos="zoom-in" class="collapse show" id="collapse-1">
                                 <div class="bg-white border rounded py-2 collapse-inner">
                                     <h6 class="collapse-header">Wines</h6>
                                     <ul id="liste_wine" style="padding:0;color:black">
@@ -61,9 +64,12 @@
                         id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
+        <button id="buttPic" onclick='addPicture()'>PICTURE</button>
+
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <nav data-aos="fade-down"
+                    class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3"
                             id="sidebarToggleTop-1" type="button"><i class="fas fa-bars"></i></button>
 
@@ -122,17 +128,18 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
-                                        aria-expanded="false" data-bs-toggle="dropdown" href="#"><span
-                                            class="d-none d-lg-inline me-2 text-gray-600 small">Hamza
-                                            Echamlali</span><i class="fas fa-user"
-                                            style="color: rgb(78, 115, 223);"></i></a>
+                                <div onclick="authentification()" class="nav-item dropdown no-arrow"><a
+                                        class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
+                                        href="#"><span id="session"
+                                            class="d-none d-lg-inline me-2 text-gray-600 small"></span><i
+                                            class="fas fa-user" style="color: rgb(78, 115, 223);"></i></a>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </nav>
-                <div class="card shadow-lg o-hidden border-0 my-5" style="margin-left: 100px;margin-right: 100px;">
+                <div data-aos="slide-up" class="card shadow-lg o-hidden border-0 my-5"
+                    style="margin-left: 100px;margin-right: 100px;">
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-flex">
@@ -179,12 +186,12 @@
                                                 class=" text-white-50 icon"><i style="color: rgba(255, 99, 99, 0.49);"
                                                     class="fas fa-heart-broken"></i></i><span></span></span><span
                                                 id="dislike" class="text-white text">Dislike</span></a>
+                                        <p style="opacity:0;margin:0">-</p>
 
                                         <a class="btn btn-primary btn-sm btn-icon-split" role="button"><span
                                                 class="text-white-50 icon"><i class="fas fa-pencil-alt"></i></span><span
                                                 class="text-white text"
                                                 onclick="document.getElementById('commentary_section').style.display='block';document.getElementById('note_section').style.display='none';">Comment</span></a>
-
 
                                         <a class=" btn btn-primary btn-sm btn-icon-split" role="button"><span
                                                 class="text-white-50 icon"><i class="fas fa-star"></i></span><span
@@ -196,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="commentary_section" class="card shadow mb-5"
+                <div data-aos="slide-right" id="commentary_section" class="card shadow mb-5"
                     style="display:none;margin-top: 35px;margin-left: 100px;margin-right: 100px;">
                     <div class="card-header py-3">
                         <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Write a commentary</p>
@@ -204,18 +211,21 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6" style="width: 100%;">
-                                <form>
+                                <form action="" method="get">
                                     <div class="mb-3"><label class="form-label" for="signature"><strong>Your
-                                                commentary</strong><br></label><textarea class="form-control"
-                                            id="signature" rows="4" name="signature"></textarea></div>
-                                    <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit"
-                                            style="background: rgb(78,115,223);">Send</button></div>
+                                                commentary</strong><br></label><textarea id="myCommentary"
+                                            class="form-control" id="signature" rows="4" name="signature"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-primary btn-sm" type="button"
+                                            style="background: rgb(78,115,223);" id="buttonCommentary">Send</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="note_section" class="card shadow mb-5"
+                <div data-aos="slide-right" id="note_section" class="card shadow mb-5"
                     style="display:none;margin-top: 35px;margin-left: 100px;margin-right: 100px;">
                     <div class="card-header py-3">
                         <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Write a note</p>
@@ -227,14 +237,16 @@
                                     <div class="mb-3"><label class="form-label" for="signature"><strong>Your
                                                 note</strong><br></label><textarea class="form-control" id="signature"
                                             rows="4" name="signature"></textarea></div>
-                                    <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit"
-                                            style="background: rgb(78,115,223);">Send</button></div>
+                                    <div id="noter" class="mb-3"><button class="btn btn-primary btn-sm" type="button"
+                                            style="background: rgb(78,115,223);" onclick="addNote(10)">Send</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card shadow mb-4" style="margin-top: 35px;margin-left: 100px;margin-right: 100px;">
+                <div data-aos="slide-right" class="card shadow mb-4"
+                    style="margin-top: 35px;margin-left: 100px;margin-right: 100px;">
                     <div class="card-header py-3">
                         <h6 class="text-primary m-0 fw-bold">Description</h6>
                     </div>
@@ -243,7 +255,8 @@
                             complement to light appetizer and dessert fare for a holiday gathering.</p>
                     </div>
                 </div>
-                <div class="row d-xl-flex justify-content-xl-center align-items-xl-center" style="margin-top: 35px;">
+                <div data-aos="slide-up" class="row d-xl-flex justify-content-xl-center align-items-xl-center"
+                    style="margin-top: 35px;">
                     <div class="col-md-6 col-xl-3 mb-4">
                         <div class="card shadow border-start-primary py-2">
                             <div class="card-body">
@@ -295,7 +308,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-xl-flex justify-content-xl-center align-items-xl-center">
+                <div data-aos="slide-up" class="row d-xl-flex justify-content-xl-center align-items-xl-center">
                     <div class="col-md-6 col-xl-3 mb-4">
                         <div class="card shadow border-start-primary py-2">
                             <div class="card-body">
@@ -348,42 +361,25 @@
                         </div>
                     </div>
                 </div>
-                <hr style="margin-right: 100px;margin-left: 100px;margin-top: 35px;">
-                <div class="card shadow mb-4" style="margin-top: 35px;margin-right: 100px;margin-left: 100px;">
+                <hr data-aos="flip-up" style="margin-right: 100px;margin-left: 100px;margin-top: 35px;">
+                <div data-aos="flip-up" class="card shadow mb-4"
+                    style="margin-top: 35px;margin-right: 100px;margin-left: 100px;">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">My last commentary</h6>
-                        <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
-                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
-                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
-                            <div style="text-align: center;"
-                                class="dropdown-menu dropdown-menu-end shadow animated--fade-in">
-                                <h6 class="dropdown-header text-center"><strong>Action</strong></h6><a
-                                    class="dropdown-item" href="#">&nbsp;Modify</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Delete</a>
-                            </div>
-                        </div>
+                        <h6 class="text-primary fw-bold m-0">Comments</h6>
                     </div>
                     <div class="card-body">
-                        <p class="m-0" id="comment">Very nice wine
+                        <p id="abc" class="m-0" id="comment">Very nice wine
                         </p>
                     </div>
                 </div>
-                <div class="card shadow mb-4" style="margin-top: 35px;margin-right: 100px;margin-left: 100px;">
+
+                <div data-aos="flip-up" class="card shadow mb-4"
+                    style="margin-top: 35px;margin-right: 100px;margin-left: 100px;">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">My last note</h6>
-                        <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
-                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
-                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
-                            <div style="text-align: center;"
-                                class="dropdown-menu dropdown-menu-end shadow animated--fade-in">
-                                <h6 class="dropdown-header text-center"><strong>Action</strong></h6><a
-                                    class="dropdown-item" href="#">&nbsp;Modify</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Delete</a>
-                            </div>
-                        </div>
+                        <h6 class="text-primary fw-bold m-0">My note</h6>
                     </div>
                     <div class="card-body">
-                        <p class="m-0" id="note">10/10
+                        <p id="def" class="m-0" id="note">10/10
                         </p>
                     </div>
                 </div>
@@ -399,6 +395,10 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </body>
 
 </html>

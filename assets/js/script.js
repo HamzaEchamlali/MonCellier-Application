@@ -1,6 +1,26 @@
 //AFFICHAGE DE TOUT LES VINS
 let wines;
 window.onload = function () {
+
+/*
+		let user = "";
+		//AFFICHER LES COMMENTAIRES	
+		fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users')
+			.then(response => response.json())
+			.then(function (json) {
+				user = json;
+				console.log(user);
+				for(let i = 0; i < user.length; i++){
+					if(user[i].login == login ){
+						alert("tu existe dans la liste");
+					}else{
+						alert("This login doesn't exist");
+					}
+				}
+
+			})
+*/
+
 	//Récupérer tous les vins
 	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines')
 		.then(response => response.json())
@@ -70,6 +90,36 @@ window.onload = function () {
 		})
 }
 
+function authentification(){
+
+login = prompt("Login : ");
+password = prompt("password : ");
+				//AUTHENTIFICATION	
+				let auth = "";
+				const options = {
+					'method': 'GET',
+					'mode': 'cors',
+					'headers': {
+						'content-type': 'application/json; charset=utf-8',
+						'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+					}};
+	
+				fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+					.then(response => response.json())
+					.then(function (json) {
+						auth = json;
+						if(auth.success){
+							document.getElementById("session").innerHTML = auth.email;
+							alert("Welcome to MonCellier");
+
+						}else{
+							alert("Invalid informations");
+						}
+					})
+
+}
+
+
 
 function recherche() {
 	let idVinChoisi;
@@ -85,7 +135,9 @@ function recherche() {
 			document.getElementById("year").innerHTML = wine.year;
 			document.getElementById("capacity").innerHTML = wine.capacity + " cl";
 			document.getElementById("description").innerHTML = wine.description;
+			document.getElementById("buttonCommentary").innerHTML = "<span id="+wine.id+" onclick='addCommentary(this.id);'>Comment</span>";
 			document.getElementById("picture").setAttribute("style", "background: url(assets/pics/" + wine.picture + ") center no-repeat;");
+			document.getElementById("noter").innerHTML = '<button class="btn btn-primary btn-sm" type="button" style="background: rgb(78,115,223);" onclick="addNote('+wine.id+')">Send</button>'
 			idVinChoisi = wine.id;
 		}
 	}
@@ -99,6 +151,47 @@ function recherche() {
 			document.getElementById("nbLike").innerHTML = " " + '<span id="' + idVinChoisi + '" onclick="like(' + idVinChoisi + ');">' + nbLike + '</span>';
 			document.getElementById("dislike").innerHTML = '<span id="' + idVinChoisi + '" onclick="dislike(' + idVinChoisi + ');"> Dislike </span>';
 		})
+
+		//AFFICHER LES COMMENTAIRES		
+	document.getElementById("abc").innerHTML = "";
+	let comment = "";
+	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/comments')
+		.then(response => response.json())
+		.then(function (json) {
+			comment = json;
+			console.log(comment);
+			for(let i = 0; i < comment.length; i++){
+
+				if(comment[i].user_id == 10){
+					document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: rgb(78, 115, 223);'></i> " + comment[i].content + "</p> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' type='button' onclick='deleteCommentary("+comment[i].id+","+comment[i].wine_id+")'>  delete </button> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' type='button' onclick='modifyCommentary("+comment[i].id+","+comment[i].wine_id+")'>  modify </button> <hr>";
+				}else{
+					document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: silver;'></i> " + comment[i].content + "</p> <hr>";
+				}
+			}	
+		})
+
+	//AFFICHER LES NOTES	
+	document.getElementById("def").innerHTML = "";
+	let notes = "";
+	const options = {
+		'method': 'GET',
+		'mode': 'cors',
+		'headers': {
+			'content-type': 'application/json; charset=utf-8',
+			'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+		}};
+
+
+	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/notes', options)
+		.then(response => response.json())
+		.then(function (json) {
+			notes = json;
+			if(notes.note.length > 0){
+				document.getElementById("def").innerHTML = "<p>"+notes.note+"</p>"+"<button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' onclick='modifyNote("+idVinChoisi+")'> modify </button> " + " <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' onclick='deleteNote("+idVinChoisi+")'> Delete </button>";
+			}
+			
+		})
+
 }
 
 function filtre() {
@@ -205,6 +298,8 @@ function clickWine(idVinChoisi) {
 			document.getElementById("year").innerHTML = wines[i].year;
 			document.getElementById("capacity").innerHTML = wines[i].capacity + " cl";
 			document.getElementById("description").innerHTML = wines[i].description;
+			document.getElementById("buttonCommentary").innerHTML = "<span id="+wines[i].id+" onclick='addCommentary(this.id);'>Comment</span>";
+			document.getElementById("noter").innerHTML = '<button class="btn btn-primary btn-sm" type="button" style="background: rgb(78,115,223);" onclick="addNote('+wines[i].id+')">Send</button>'
 			document.getElementById("picture").setAttribute("style", "background: url(assets/pics/" + wines[i].picture + ") center no-repeat;");
 
 			//document.getElementById("extra").innerHTML = wines[i].extra;
@@ -213,7 +308,6 @@ function clickWine(idVinChoisi) {
 	}
 
 	//AFFICHER LE NOMBRE DE LIKE
-
 	let like = 0;
 	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/likes-count')
 		.then(response => response.json())
@@ -223,7 +317,565 @@ function clickWine(idVinChoisi) {
 			document.getElementById("nbLike").innerHTML = " " + '<span id="' + idVinChoisi + '" onclick="like(' + idVinChoisi + ');">' + nbLike + '</span>';
 			document.getElementById("dislike").innerHTML = '<span id="' + idVinChoisi + '" onclick="dislike(' + idVinChoisi + ');"> Dislike </span>';
 		})
+
+	//AFFICHER LES COMMENTAIRES		
+	document.getElementById("abc").innerHTML = "";
+	let comment = "";
+	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/comments')
+		.then(response => response.json())
+		.then(function (json) {
+			comment = json;
+			console.log(comment);
+			for(let i = 0; i < comment.length; i++){
+
+				if(comment[i].user_id == 10){
+					document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: rgb(78, 115, 223);'></i> " + comment[i].content + "</p> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' type='button' onclick='deleteCommentary("+comment[i].id+","+comment[i].wine_id+")'>  delete </button> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' type='button' onclick='modifyCommentary("+comment[i].id+","+comment[i].wine_id+")'>  modify </button> <hr>";
+				}else{
+					document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: silver;'></i> " + comment[i].content + "</p> <hr>";
+				}
+			}	
+		})
+
+	//AFFICHER LES NOTES	
+	document.getElementById("def").innerHTML = "";
+	let notes = "";
+	const options = {
+		'method': 'GET',
+		'mode': 'cors',
+		'headers': {
+			'content-type': 'application/json; charset=utf-8',
+			'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+		}};
+
+
+	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/notes', options)
+		.then(response => response.json())
+		.then(function (json) {
+			notes = json;
+			if(notes.note.length > 0){
+				document.getElementById("def").innerHTML = "<p>"+notes.note+"</p>"+"<button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' onclick='modifyNote("+idVinChoisi+")'> modify </button> " + " <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' onclick='deleteNote("+idVinChoisi+")'> Delete </button>";
+			}
+			
+		})
+
+
+	
+	//AFFICHER LES IMAGES	
+	let pictures = "";
+	const optionss = {
+		'method': 'GET',
+		'mode': 'cors',
+		'headers': {
+			'content-type': 'application/json; charset=utf-8',
+			'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+		}};
+
+		fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/pictures', optionss)
+		.then(response => response.json())
+		.then(function (json) {
+			pictures = json;
+			console.log(pictures);
+			document.getElementById("buttPic").setAttribute("style", "background: url(" + pictures[0].url + ") center no-repeat;");
+		})
+
 }
+
+
+function addPicture(){
+
+		//AFFICHER LES IMAGES	
+		let pictures = "";
+		const options = {
+			'method': 'POST',
+			'body': JSON.stringify({ "FormData" : "test.jpg" }) ,	//La note
+			'mode': 'cors',
+			'headers': {
+				//'content-type': 'application/json; charset=utf-8',
+				'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+			}};
+	
+			fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + 10 + '/pictures', options)
+			.then(response => response.json())
+			.then(function (json) {
+				pictures = json;
+				console.log(pictures);
+			})
+	
+
+}
+
+function addNote(idVinChoisi){
+	let login = prompt("Login :");
+	let password = prompt("Password :");
+
+					//AUTHENTIFICATION	
+					let auth = "";
+					const options = {
+						'method': 'GET',
+						'mode': 'cors',
+						'headers': {
+							'content-type': 'application/json; charset=utf-8',
+							'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+						}};
+		
+					fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+						.then(response => response.json())
+						.then(function (json) {
+							auth = json;
+							if(auth.success){
+								document.getElementById("session").innerHTML = auth.email;
+		let note = document.getElementById("signature").value;
+
+		if(note.length > 0){
+
+		//PREPARE LA MODIFICATION
+
+		const wineId = idVinChoisi;	//Try with other id value
+		const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
+		const options = {
+			'method': 'PUT',
+			'body': JSON.stringify({ "note" : note }) ,	//La note
+			'mode': 'cors',
+			'headers': {
+				'content-type': 'application/json; charset=utf-8',
+				'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+			}
+		};
+
+		//EXECUTE LA MODIFICATION
+		const fetchURL = '/wines/' + wineId + '/notes';
+		fetch(apiURL + fetchURL, options).then(function (response) {
+			if (response.ok) {
+				alert("Note updated !");
+					//AFFICHER LES NOTES	
+	document.getElementById("def").innerHTML = "";
+	let notes = "";
+	const options = {
+		'method': 'GET',
+		'mode': 'cors',
+		'headers': {
+			'content-type': 'application/json; charset=utf-8',
+			'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+		}};
+
+
+	fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/notes', options)
+		.then(response => response.json())
+		.then(function (json) {
+			notes = json;
+			console.log(notes.note);
+			if(notes.note.length > 0){
+				document.getElementById("def").innerHTML = "<p>"+notes.note+"</p>"+"<button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' onclick='modifyNote("+idVinChoisi+")'> modify </button> " + " <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' onclick='deleteNote("+idVinChoisi+")'> Delete </button>";
+			}
+		})
+			} else {
+				alert("ERROR");
+			}
+		});
+
+	}else{
+		alert("Note empty");
+	}
+							}else{
+								alert('Invalid informations');
+	
+							}
+						})
+		
+		document.getElementById("note_section").style.display='none';
+
+}
+
+function modifyNote(idVinChoisi){
+
+	let login = prompt("Login :");
+	let password = prompt("Password :");
+
+					//AUTHENTIFICATION	
+					let auth = "";
+					const options = {
+						'method': 'GET',
+						'mode': 'cors',
+						'headers': {
+							'content-type': 'application/json; charset=utf-8',
+							'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+						}};
+		
+					fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+						.then(response => response.json())
+						.then(function (json) {
+							auth = json;
+							if(auth.success){
+								document.getElementById("session").innerHTML = auth.email;
+		let note = prompt("Modify your note :");
+
+	if(note.length > 0){
+	//PREPARE LA MODIFICATION
+
+	const wineId = idVinChoisi;	//Try with other id value
+	const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
+	const options = {
+		'method': 'PUT',
+		'body': JSON.stringify({ "note" : note }) ,	//La note
+		'mode': 'cors',
+		'headers': {
+			'content-type': 'application/json; charset=utf-8',
+			'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+		}
+	};
+
+	//EXECUTE LA MODIFICATION
+	const fetchURL = '/wines/' + wineId + '/notes';
+	fetch(apiURL + fetchURL, options).then(function (response) {
+		if (response.ok) {
+			alert("Note updated !");
+				//AFFICHER LES NOTES	
+document.getElementById("def").innerHTML = "";
+let notes = "";
+const options = {
+	'method': 'GET',
+	'mode': 'cors',
+	'headers': {
+		'content-type': 'application/json; charset=utf-8',
+		'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+	}};
+
+
+fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/notes', options)
+	.then(response => response.json())
+	.then(function (json) {
+		notes = json;
+		console.log(notes.note);
+		if(notes.note.length > 0){
+			document.getElementById("def").innerHTML = "<p>"+notes.note+"</p>"+"<button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' onclick='modifyNote("+idVinChoisi+")'> modify </button> " + " <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' onclick='deleteNote("+idVinChoisi+")'> Delete </button>";
+		}
+	})
+		} else {
+			alert("ERROR");
+		}
+	});
+	}else{
+		alert("The new note is empty");
+	}
+
+							}else{
+								alert('Invalid informations');
+							}
+						})
+
+
+	document.getElementById("note_section").style.display='none';
+
+}
+
+
+
+function deleteNote(idVinChoisi){
+
+
+	let login = prompt("Login :");
+	let password = prompt("Password :");
+
+					//AUTHENTIFICATION	
+					let auth = "";
+					const options = {
+						'method': 'GET',
+						'mode': 'cors',
+						'headers': {
+							'content-type': 'application/json; charset=utf-8',
+							'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+						}};
+		
+					fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+						.then(response => response.json())
+						.then(function (json) {
+							auth = json;
+							if(auth.success){
+								document.getElementById("session").innerHTML = auth.email;
+	let note = "";
+
+	//PREPARE LA MODIFICATION
+
+	const wineId = idVinChoisi;	//Try with other id value
+	const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
+	const options = {
+		'method': 'PUT',
+		'body': JSON.stringify({ "note" : note }) ,	//La note
+		'mode': 'cors',
+		'headers': {
+			'content-type': 'application/json; charset=utf-8',
+			'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+		}
+	};
+
+	//EXECUTE LA MODIFICATION
+	const fetchURL = '/wines/' + wineId + '/notes';
+	fetch(apiURL + fetchURL, options).then(function (response) {
+		if (response.ok) {
+			alert("Note deleted !");
+				//AFFICHER LES NOTES	
+document.getElementById("def").innerHTML = "";
+let notes = "";
+const options = {
+	'method': 'GET',
+	'mode': 'cors',
+	'headers': {
+		'content-type': 'application/json; charset=utf-8',
+		'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+	}};
+
+
+fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/notes', options)
+	.then(response => response.json())
+	.then(function (json) {
+		notes = json;
+		console.log(notes.note);
+		
+		document.getElementById("def").innerHTML = notes.note;
+	})
+		} else {
+			alert("ERROR");
+		}
+	});
+							}else{
+								alert('Invalid informations');
+							}
+						})
+
+
+
+
+	
+}
+
+function addCommentary(idVinChoisi){
+
+	let login = prompt("Login :");
+	let password = prompt("Password :");
+
+					//AUTHENTIFICATION	
+					let auth = "";
+					const options = {
+						'method': 'GET',
+						'mode': 'cors',
+						'headers': {
+							'content-type': 'application/json; charset=utf-8',
+							'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+						}};
+		
+					fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+						.then(response => response.json())
+						.then(function (json) {
+							auth = json;
+							if(auth.success){
+								document.getElementById("session").innerHTML = auth.email;
+		let commentaire = document.getElementById("myCommentary").value;
+
+		if(commentaire.length>0){
+	//PREPARE LA MODIFICATION
+
+			const wineId = idVinChoisi;	//Try with other id value
+			const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
+			const options = {
+				'method': 'POST',
+				'body': JSON.stringify({ "content" : commentaire }) ,	//Le commentaire
+				'mode': 'cors',
+				'headers': {
+					'content-type': 'application/json; charset=utf-8',
+					'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+				}
+			};
+
+			//EXECUTE LA MODIFICATION
+			const fetchURL = '/wines/' + wineId + '/comments';
+			fetch(apiURL + fetchURL, options).then(function (response) {
+				if (response.ok) {
+					response.json().then(function (data) {
+						alert("Your comment has been added");
+						document.getElementById("abc").innerHTML = "";
+						let comment = "";
+						//AFFICHER LES COMMENTAIRES	
+						fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/comments')
+							.then(response => response.json())
+							.then(function (json) {
+								comment = json;
+								for(let i = 0; i < comment.length; i++){
+					
+									if(comment[i].user_id == 10){
+										document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: rgb(78, 115, 223);'></i> " + comment[i].content + "</p> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' type='button' onclick='deleteCommentary("+comment[i].id+","+comment[i].wine_id+")'>  delete </button> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' type='button' onclick='modifyCommentary("+comment[i].id+","+comment[i].wine_id+")'>  modify </button> <hr>";
+									}else{
+										document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: silver;'></i> " + comment[i].content + "</p> <hr>";
+									}
+					
+								}	
+							})
+					});
+				} else {
+					alert("ERROR");
+				}
+			});
+
+		}else{
+			alert("Comment empty");
+		}
+							}else{
+								alert('Invalid informations');
+							}
+						})
+			document.getElementById("commentary_section").style.display='none';
+}
+
+function modifyCommentary(idCommentaire, idVinChoisi){
+
+	let login = prompt("Login :");
+	let password = prompt("Password :");
+
+					//AUTHENTIFICATION	
+					let auth = "";
+					const options = {
+						'method': 'GET',
+						'mode': 'cors',
+						'headers': {
+							'content-type': 'application/json; charset=utf-8',
+							'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+						}};
+		
+					fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+						.then(response => response.json())
+						.then(function (json) {
+							auth = json;
+							if(auth.success){
+								document.getElementById("session").innerHTML = auth.email;
+	let commentaireModifier = prompt("Modify your commentary");
+
+	if(commentaireModifier.length > 0){
+
+	//PREPARE LA MODIFICATION
+
+const wineId = idVinChoisi;	//Try with other id value
+const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
+const options = {
+	'method': 'PUT',
+	'body': JSON.stringify({ "content" : commentaireModifier }) ,	//Le commentaire
+	'mode': 'cors',
+	'headers': {
+		'content-type': 'application/json; charset=utf-8',
+		'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+	}
+};
+
+//EXECUTE LA MODIFICATION
+const fetchURL = '/wines/' + wineId + '/comments/' + idCommentaire;
+fetch(apiURL + fetchURL, options).then(function (response) {
+	if (response.ok) {
+		response.json().then(function (data) {
+			alert("Your comment has been updated");
+document.getElementById("abc").innerHTML = "";
+let comment = "";
+//AFFICHER LES COMMENTAIRES	
+fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/comments')
+	.then(response => response.json())
+	.then(function (json) {
+		comment = json;
+		for(let i = 0; i < comment.length; i++){
+
+			if(comment[i].user_id == 10){
+				document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: rgb(78, 115, 223);'></i> " + comment[i].content + "</p> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' type='button' onclick='deleteCommentary("+comment[i].id+","+comment[i].wine_id+")'>  delete </button> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' type='button' onclick='modifyCommentary("+comment[i].id+","+comment[i].wine_id+")'>  modify </button> <hr>";
+			}else{
+				document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: silver;'></i> " + comment[i].content + "</p> <hr>";
+			}
+
+		}	
+	})
+		});
+	} else {
+		alert("ERROR");
+	}
+});
+
+	}else{
+		alert("The new comment is empty");
+	}
+
+							}else{
+								alert('Invalid informations');
+							}
+						})
+
+document.getElementById("commentary_section").style.display='none';
+}
+
+function deleteCommentary(idCommentaire, idVinChoisi){
+
+	let login = prompt("Login :");
+	let password = prompt("Password :");
+
+					//AUTHENTIFICATION	
+					let auth = "";
+					const options = {
+						'method': 'GET',
+						'mode': 'cors',
+						'headers': {
+							'content-type': 'application/json; charset=utf-8',
+							'Authorization': 'Basic ' + btoa(''+login+':'+password+'')	//Try with other credentials (login:password)
+						}};
+		
+					fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/users/authenticate',options)
+						.then(response => response.json())
+						.then(function (json) {
+							auth = json;
+							if(auth.success){
+								document.getElementById("session").innerHTML = auth.email;
+	//PREPARE LA MODIFICATION
+
+const wineId = idVinChoisi;	//Try with other id value
+const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
+const options = {
+	'method': 'DELETE',
+	'mode': 'cors',
+	'headers': {
+		'content-type': 'application/json; charset=utf-8',
+		'Authorization': 'Basic ' + btoa('hamza:123')	//Try with other credentials (login:password)
+	}
+};
+
+//EXECUTE LA MODIFICATION
+const fetchURL = '/wines/' + wineId + '/comments/' + idCommentaire;
+fetch(apiURL + fetchURL, options).then(function (response) {
+	if (response.ok) {
+		response.json().then(function (data) {
+			alert("Your comment has been deleted");
+document.getElementById("abc").innerHTML = "";
+let comment = "";
+//AFFICHER LES COMMENTAIRES	
+fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/' + idVinChoisi + '/comments')
+	.then(response => response.json())
+	.then(function (json) {
+		comment = json;
+		for(let i = 0; i < comment.length; i++){
+
+			if(comment[i].user_id == 10){
+				document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: rgb(78, 115, 223);'></i> " + comment[i].content + "</p> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;background-color:red' type='button' onclick='deleteCommentary("+comment[i].id+","+comment[i].wine_id+")'>  delete </button> <button class='btn btn-primary btn-sm btn-icon-split' style='padding:1vh 1vw;' type='button' onclick='modifyCommentary("+comment[i].id+","+comment[i].wine_id+")'>  modify </button> <hr>";
+			}else{
+				document.getElementById("abc").innerHTML += "<p> <i class='fas fa-user' style='color: silver;'></i> " + comment[i].content + "</p> <hr>";
+			}
+
+		}	
+	})
+		});
+	} else {
+		alert("ERROR");
+	}
+});
+							}else{
+								alert('Invalid informations');
+							}
+						})
+
+
+
+}
+
 
 function like(id) {
 	//PREPARE LA MODIFICATION
@@ -258,15 +910,11 @@ function like(id) {
 			alert("ERROR");
 		}
 	});
-
-
-
 }
 
 function dislike(id) {
 
 	//PREPARE LA MODIFICATION
-
 	const wineId = id;	//Try with other id value
 	const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
 	const options = {
@@ -299,35 +947,5 @@ function dislike(id) {
 	});
 
 }
-
-
-
-//PREPARE LA MODIFICATION
-
-/*
-	const wineId = 10;	//Try with other id value
-	const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';
-	const options = {
-		'method': 'PUT',
-		'body': JSON.stringify({ "like" : true }),	//Try with true or false
-		'mode': 'cors',
-		'headers': {
-			'content-type': 'application/json; charset=utf-8',
-			'Authorization': 'Basic '+btoa('ced:123')	//Try with other credentials (login:password)
-		}
-	};
-    
-//EXECUTE LA MODIFICATION
-const fetchURL = '/wines/'+wineId+'/like';
-	fetch(apiURL + fetchURL, options).then(function(response) {
-		if(response.ok) {
-			response.json().then(function(data){
-				console.log(data);
-			});
-		}else{
-			console.log("ERROR");
-		}
-	});
-	*/
 
 
