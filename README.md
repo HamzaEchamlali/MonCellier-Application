@@ -1,4 +1,4 @@
-# MonCellier V.0.6
+# MonCellier V.0.8
  MonCellier is a one page application allowing you to see and consult wines, see their characteristics and description but also to assign a note, a comment and a like.
 
 [Features]
@@ -37,12 +37,24 @@ Prefer
  
 Comment
   - Add comment
+  - Modify comment
   - Delete comment 
 
 Note
  - Add note
+ - Modify note
  - Delete note
  
- Picture
+ Picture (WORK IN PROGRESS)
   - Add picture
   - Delete picture
+
+[Framework]
+
+Html/Css
+ - Bootstrap Twitter
+
+[Library]
+
+Animation 
+ - Aos
