@@ -1,4 +1,4 @@
-# MonCellier Application V.0.9
+# [Application] MonCellier V.0.9
  MonCellier is a one page application allowing you to see and consult wines, see their characteristics and description but also to assign a note, a comment and a like.
 
 Visit the application : https://hamzaechamlali.github.io/MonCellier-Application/
