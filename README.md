@@ -3,7 +3,7 @@
 
 Visit the application : https://hamzaechamlali.github.io/MonCellier-Application/
 
-[Features]
+[ Features ]
 
 Home
  - Redirection to the home 
@@ -51,12 +51,12 @@ Note
   - Add picture
   - Delete picture
 
-[Framework]
+[ Framework ]
 
 Html/Css
  - Bootstrap Twitter
 
-[Library]
+[ Library ]
 
 Animation 
  - Aos
